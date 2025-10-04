@@ -10,8 +10,9 @@ public class CharacterSelector
 {
     private readonly IReadOnlyList<Class> _classes;
 
-    public CharacterSelector(Assembly assembly)
+    public CharacterSelector()
     {
+        var assembly = Assembly.GetExecutingAssembly();
         _classes = ReflectionExtensions.GetInstancesOfType<Class>(assembly);
     }
 

@@ -13,14 +13,14 @@ public class Arena
     private readonly Character _character = new();
     private readonly Counter _level = new();
     private readonly Counter _turn = new();
-    private readonly CharacterSelector _characterSelector;
+    private readonly CharacterSelector _characterSelector = new();
     private readonly GameSessionController _sessionController;
 
     public Arena()
     {
         var assembly = Assembly.GetExecutingAssembly();
         _enemies = ReflectionExtensions.GetInstancesOfType<Enemy>(assembly);
-        _characterSelector = new(assembly);
+
         _sessionController = new(_character, _characterSelector, _level);
     }
 
