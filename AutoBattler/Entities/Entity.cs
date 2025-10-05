@@ -49,6 +49,9 @@ public abstract class Entity
 
     public bool TryTakeDamage(DamageInfo damageInfo, int turn, out DamageResults results)
     {
+        if (turn < 1)
+            throw new InvalidOperationException($"{nameof(turn)} must be non-zero positive number!");
+
         results = new DamageResults(0, 0, 0);
 
         if(IsMiss(damageInfo.AttackerAttributes))
@@ -65,25 +68,6 @@ public abstract class Entity
 
         _cumulativeDamage += processedDamage;
         return true;
-    }
-
-    private bool IsMiss(IReadOnlyAttributes attacker)
-    {
-        var attributes = TotalAttributes;
-        int chance = Random.Shared.Next(1, attacker.Agility + attributes.Agility + 1);
-        return chance <= attributes.Agility;
-    }
-
-    public int GetTargetDamageModifier(DamageInfo damageInfo)
-    {
-        int damageDecreasing = 0;
-        var modifiers = DamageReceiverModifiers;
-
-        foreach (var modifier in modifiers)
-        {
-            damageDecreasing += modifier.ModifyDamageTaken(TotalAttributes, damageInfo);
-        }
-        return damageDecreasing;
     }
 
     public virtual void Recovery() => _cumulativeDamage = 0;
@@ -110,4 +94,23 @@ public abstract class Entity
     }
 
     protected void ClearBonuses() => _currentBonuses.Clear();
+
+    private bool IsMiss(IReadOnlyAttributes attacker)
+    {
+        var attributes = TotalAttributes;
+        int chance = Random.Shared.Next(1, attacker.Agility + attributes.Agility + 1);
+        return chance <= attributes.Agility;
+    }
+
+    private int GetTargetDamageModifier(DamageInfo damageInfo)
+    {
+        int damageDecreasing = 0;
+        var modifiers = DamageReceiverModifiers;
+
+        foreach (var modifier in modifiers)
+        {
+            damageDecreasing += modifier.ModifyDamageTaken(TotalAttributes, damageInfo);
+        }
+        return damageDecreasing;
+    }
 }
