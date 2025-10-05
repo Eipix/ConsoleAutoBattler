@@ -2,7 +2,7 @@
 
 public class Attributes(int strength, int agility, int stamina) : IReadOnlyAttributes
 {
-    public static Attributes Zero = new(0, 0, 0);
+    public readonly static Attributes Zero = new(0, 0, 0);
 
     public const int RandomMinValue = 1;
     public const int RandomMaxValue = 3;
@@ -11,14 +11,14 @@ public class Attributes(int strength, int agility, int stamina) : IReadOnlyAttri
     public int Agility { get; set; } = agility;
     public int Stamina { get; set; } = stamina;
 
-    public override string ToString() => $"Сила: {Strength}, Ловкость: {Agility}, Выносливость: {Stamina}";
-
     public static Attributes GenerateRandom()
     {
         return new Attributes(RandomValue(), RandomValue(), RandomValue());
 
         static int RandomValue() => Random.Shared.Next(RandomMinValue, RandomMaxValue + 1);
     }
+
+    public override string ToString() => $"Сила: {Strength}, Ловкость: {Agility}, Выносливость: {Stamina}";
 
     public static Attributes operator+(Attributes a, Attributes b)
     {
