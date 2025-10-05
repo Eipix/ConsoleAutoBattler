@@ -1,8 +1,6 @@
 ﻿
 
-using Extensions;
 using System.Collections.Generic;
-using System.Linq;
 
 public record DamageContext(IReadOnlyAttributes Attributes, IEnumerable<IDamageModifier> DamageModifiers, int WeaponDamage)
 {

@@ -1,5 +1,4 @@
 ﻿
-
 public class Counter
 {
     public int Value { get; private set; } = 0;

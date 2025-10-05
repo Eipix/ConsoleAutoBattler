@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 using static GameConstants;
 using static Extensions.ConsoleExtensions;

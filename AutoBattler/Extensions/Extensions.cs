@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace Extensions;
@@ -30,13 +29,5 @@ public static class Extensions
             result += (Attributes)attribute;
 
         return result;
-    }
-
-    public static void ForEach<T>(this IEnumerable<T> ienumerable, Action<T> action)
-    {
-        foreach (var item in ienumerable)
-        {
-            action.Invoke(item);
-        }
     }
 }

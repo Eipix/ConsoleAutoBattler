@@ -1,4 +1,5 @@
 ﻿using Extensions;
+
 using static Extensions.ConsoleExtensions;
 using static GameConstants;
 

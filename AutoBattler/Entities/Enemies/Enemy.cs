@@ -1,4 +1,5 @@
 ﻿using System;
+
 public abstract class Enemy : Entity
 {
     public readonly Weapon Reward;
