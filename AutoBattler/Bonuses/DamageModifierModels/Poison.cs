@@ -6,8 +6,8 @@ public class Poison : IDamageModifier
 
     public override string ToString() => "Яд";
 
-    public int ModifyDamage(IReadOnlyAttributes targetAttributtes, DamageInfo damageInfo, int turn)
+    public int ModifyDamage(BattleContext context)
     {
-        return turn - TurnsWithoutDamage;
+        return context.Turn - TurnsWithoutDamage;
     }
 }

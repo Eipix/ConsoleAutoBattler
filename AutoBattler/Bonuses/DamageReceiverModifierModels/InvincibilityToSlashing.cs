@@ -3,12 +3,12 @@ public class InvincibilityToSlashing : IDamageReceiverModifier
 {
     public override string ToString() => "Неуязвимость к рубящему оружию";
 
-    public int ModifyDamageTaken(IReadOnlyAttributes target, DamageInfo damageInfo)
+    public int ModifyDamageTaken(BattleContext context)
     {
-        var characterDamageInfo = (CharacterDamageInfo)damageInfo;
+        var characterDamageContext = (CharacterDamageContext)context.Attacker;
 
-        if (characterDamageInfo.Type is WeaponType.Slashing)
-            return - damageInfo.WeaponDamage;
+        if (characterDamageContext.Type is WeaponType.Slashing)
+            return - characterDamageContext.WeaponDamage;
 
         return 0;
     }

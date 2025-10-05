@@ -5,9 +5,9 @@ public class Shield : IDamageReceiverModifier
 
     public override string ToString() => "Щит";
 
-    public int ModifyDamageTaken(IReadOnlyAttributes target, DamageInfo damageInfo)
+    public int ModifyDamageTaken(BattleContext context)
     {
-        if (target.Strength > damageInfo.Strength)
+        if (context.Target.Attributes.Strength > context.Attacker.Attributes.Strength)
             return - DamageReduction;
 
         return 0;

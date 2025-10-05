@@ -1,5 +1,5 @@
 ﻿
 public interface IDamageReceiverModifier : IBonus
 {
-    int ModifyDamageTaken(IReadOnlyAttributes target, DamageInfo damageInfo);
+    int ModifyDamageTaken(BattleContext context);
 }

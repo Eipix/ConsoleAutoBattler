@@ -43,7 +43,7 @@ public class Arena
             LogLine("Вы победили!\n", Positive, Fast);
 
             OfferReward(enemy.Reward);
-            UpgradeCharacter();
+            UpgradeOrRecoveryCharacter();
 
             Console.Clear();
         }
@@ -84,11 +84,11 @@ public class Arena
         if (attacker.IsDead || target.IsDead)
             return;
 
-        var damage = attacker.DamageInfo;
+        var context = new BattleContext(attacker.DamageContext, target.DamageContext, _turn);
 
-        if(target.TryTakeDamage(damage, _turn, out DamageResults results))
+        if(target.TryTakeDamage(context, out DamageResults results))
         {
-            LogLine($"{attacker.Name} наносит {target.Name} - {results.Processed} урона! (Бонус атакующего: {results.AttackerBonus}; Бонус цели: {results.TargetBonus})\nОставшееся HP {target.Name}: {target.Health}\n", Info, Slow);        
+            LogLine($"{attacker.Name} наносит {target.Name} - {results.Processed} урона! (Бонус атакующего: {results.AttackerBonus}; Бонус цели: {results.TargetBonus})\nОставшееся HP {target.Name}: {target.Health}\n", attacker.ApplyDamageColor, Slow);        
         }
         else
         {
@@ -108,7 +108,7 @@ public class Arena
         }
     }
 
-    private void UpgradeCharacter()
+    private void UpgradeOrRecoveryCharacter()
     {
         if (_character.SummaryLevel < MaxClassLevel)
             _characterSelector.InitOrUpgrade(_character, "Выберите класс который хотите освоить или улучшить имеющие");

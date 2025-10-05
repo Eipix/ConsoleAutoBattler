@@ -13,7 +13,8 @@ public sealed class Character : Entity
 
     public int SummaryLevel => _currentClasses.Sum(c => c.Level);
 
-    public override DamageInfo DamageInfo => new CharacterDamageInfo(TotalAttributes, DamageModifiers, _weapon!.Type, _weapon.Damage);
+    public override DamageContext DamageContext => new CharacterDamageContext(TotalAttributes, DamageModifiers, _weapon!.Type, _weapon.Damage);
+    public override ConsoleColor ApplyDamageColor => GameConstants.Positive;
 
     public Character() : base("Игрок") { }
 
@@ -21,7 +22,7 @@ public sealed class Character : Entity
     {
         string classInfo = string.Join('/', _currentClasses.Select(c => c.Status));
         string bonuses = string.Join('/', _currentClasses.SelectMany(c => c.CurrentBonuses));
-        string characteristics = $"Жизни: {Health}, Базовый урон - {DamageInfo.BaseDamage} Оружие - {Weapon}, {InitialAttributes}";
+        string characteristics = $"Жизни: {Health}, Базовый урон - {DamageContext.BaseDamage} Оружие - {Weapon}, {InitialAttributes}";
 
         return $"Статус - {classInfo}\nБонусы - {bonuses}\nХарактеристики - {characteristics}";
     }

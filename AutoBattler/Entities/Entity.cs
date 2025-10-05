@@ -33,7 +33,8 @@ public abstract class Entity
     public bool IsAlive => Health > 0;
     public bool IsDead => IsAlive is false;
 
-    public abstract DamageInfo DamageInfo { get; }
+    public abstract DamageContext DamageContext { get; }
+    public virtual ConsoleColor ApplyDamageColor => GameConstants.Info;
 
     public Entity(string name) => Name = name;
 
@@ -47,19 +48,19 @@ public abstract class Entity
         _cumulativeStamina = _initialAttributes.Stamina;
     }
 
-    public bool TryTakeDamage(DamageInfo damageInfo, int turn, out DamageResults results)
+    public bool TryTakeDamage(BattleContext context, out DamageResults results)
     {
-        if (turn < 1)
-            throw new InvalidOperationException($"{nameof(turn)} must be non-zero positive number!");
+        if (context.Turn < 1)
+            throw new InvalidOperationException($"{nameof(context.Turn)} must be non-zero positive number!");
 
         results = new DamageResults(0, 0, 0);
 
-        if(IsMiss(damageInfo.AttackerAttributes))
+        if(IsMiss(context.Attacker.Attributes))
             return false;
 
-        int attackerBonusDamage = damageInfo.GetAttackerBonusDamage(TotalAttributes, turn);
-        int targetDamageModifier = GetTargetDamageModifier(damageInfo);
-        int processedDamage = damageInfo.BaseDamage + targetDamageModifier + attackerBonusDamage;
+        int attackerBonusDamage = context.CalculateAttackerBonusDamage();
+        int targetDamageModifier = CalculateTargetDamageAdjustment(context);
+        int processedDamage = context.Attacker.BaseDamage + targetDamageModifier + attackerBonusDamage;
 
         results = new DamageResults(processedDamage, attackerBonusDamage, targetDamageModifier);
 
@@ -102,15 +103,15 @@ public abstract class Entity
         return chance <= attributes.Agility;
     }
 
-    private int GetTargetDamageModifier(DamageInfo damageInfo)
+    private int CalculateTargetDamageAdjustment(BattleContext context)
     {
-        int damageDecreasing = 0;
+        int adjustmentDamage = 0;
         var modifiers = DamageReceiverModifiers;
 
         foreach (var modifier in modifiers)
         {
-            damageDecreasing += modifier.ModifyDamageTaken(TotalAttributes, damageInfo);
+            adjustmentDamage += modifier.ModifyDamageTaken(context);
         }
-        return damageDecreasing;
+        return adjustmentDamage;
     }
 }

@@ -6,9 +6,9 @@ public class FireBreath : IDamageModifier
 
     public override string ToString() => "Огненное дыхание";
 
-    public int ModifyDamage(IReadOnlyAttributes targetAttributtes, DamageInfo damageInfo, int turn)
+    public int ModifyDamage(BattleContext context)
     {
-        if (turn % EveryTurnActivate is 0)
+        if (context.Turn % EveryTurnActivate is 0)
             return Damage;
 
         return 0;

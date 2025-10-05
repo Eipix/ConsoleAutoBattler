@@ -7,9 +7,9 @@ public class Rage : IDamageModifier
 
     public override string ToString() => "Ярость";
 
-    public int ModifyDamage(IReadOnlyAttributes targetAttributtes, DamageInfo damageInfo, int turn)
+    public int ModifyDamage(BattleContext context)
     {
-        if(turn <= StepDuration)
+        if(context.Turn <= StepDuration)
             return DuringRageDamage;
 
         return AfterRageDamage;

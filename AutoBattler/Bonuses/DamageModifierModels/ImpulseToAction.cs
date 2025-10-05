@@ -6,10 +6,10 @@ public class ImpulseToAction : IDamageModifier
 
     public override string ToString() => "Порыв к действию";
 
-    public int ModifyDamage(IReadOnlyAttributes targetAttributtes, DamageInfo damageInfo, int turn)
+    public int ModifyDamage(BattleContext context)
     {
-        if(turn is FirstTurn)
-            return damageInfo.WeaponDamage;
+        if(context.Turn is FirstTurn)
+            return context.Attacker.WeaponDamage;
 
         return 0;
     }

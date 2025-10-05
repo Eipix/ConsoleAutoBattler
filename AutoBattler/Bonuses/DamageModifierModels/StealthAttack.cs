@@ -5,9 +5,9 @@ public class StealthAttack : IDamageModifier
 
     public override string ToString() => "Скрытая атака";
 
-    public int ModifyDamage(IReadOnlyAttributes targetAttributtes, DamageInfo damageInfo, int round)
+    public int ModifyDamage(BattleContext context)
     {
-        if (damageInfo.Agility >  targetAttributtes.Agility)
+        if (context.Attacker.Attributes.Agility >  context.Target.Attributes.Agility)
             return DamageBonus;
 
         return 0;
